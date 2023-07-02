@@ -1,3 +1,30 @@
 [submodule "database/Chinese-meme/EmojiPackage"]
 	path = database/Chinese-meme/EmojiPackage
 	url = git@github.com:getActivity/EmojiPackage.git
+[submodule "database/Chinese-meme/img"]
+	path = database/Chinese-meme/img
+	url = git@github.com:Skyimg/img.git
+[submodule "database/Chinese-meme/ChineseBQB"]
+	path = database/Chinese-meme/ChineseBQB
+	url = git@github.com:zhaoolee/ChineseBQB.git
+[submodule "database/Chinese-meme/emoticon"]
+	path = database/Chinese-meme/emoticon
+	url = git@github.com:kallydev/emoticon.git
+[submodule "database/Chinese-meme/ikun"]
+	path = database/Chinese-meme/ikun
+	url = git@github.com:wzwtt/ikun.git
+[submodule "database/Chinese-meme/ShiroSeijo"]
+	path = database/Chinese-meme/ShiroSeijo
+	url = git@github.com:Lampese/ShiroSeijo.git
+[submodule "database/Chinese-meme/asoul-sticker"]
+	path = database/Chinese-meme/asoul-sticker
+	url = git@github.com:stormyyd/asoul-sticker.git
+[submodule "database/Chinese-meme/bilibili-emotes"]
+	path = database/Chinese-meme/bilibili-emotes
+	url = git@github.com:ccmuyuu/bilibili-emotes.git
+[submodule "database/Chinese-meme/emoji_automaton"]
+	path = database/Chinese-meme/emoji_automaton
+	url = git@github.com:lr580/emoji_automaton.git
+[submodule "database/Chinese-meme/CDN-EMOTE"]
+	path = database/Chinese-meme/CDN-EMOTE
+	url = git@github.com:url8/CDN-EMOTE.git
