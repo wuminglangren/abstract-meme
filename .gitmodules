@@ -1,0 +1,3 @@
+[submodule "database/Chinese-meme/EmojiPackage"]
+	path = database/Chinese-meme/EmojiPackage
+	url = git@github.com:getActivity/EmojiPackage.git
