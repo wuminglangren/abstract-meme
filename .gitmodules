@@ -28,3 +28,48 @@
 [submodule "database/Chinese-meme/CDN-EMOTE"]
 	path = database/Chinese-meme/CDN-EMOTE
 	url = git@github.com:url8/CDN-EMOTE.git
+[submodule "database/Abroad-meme/memes"]
+	path = database/Abroad-meme/memes
+	url = git@github.com:pinkode/memes.git
+[submodule "database/Abroad-meme/programming-memes"]
+	path = database/Abroad-meme/programming-memes
+	url = git@github.com:deep5050/programming-memes.git
+[submodule "database/Abroad-meme/awesome-tech-memes"]
+	path = database/Abroad-meme/awesome-tech-memes
+	url = git@github.com:GuidoPenta/awesome-tech-memes.git
+[submodule "database/Abroad-meme/Project-Padoru"]
+	path = database/Abroad-meme/Project-Padoru
+	url = git@github.com:shadow578/Project-Padoru.git
+[submodule "database/Abroad-meme/memepool"]
+	path = database/Abroad-meme/memepool
+	url = git@github.com:Psytreiser/memepool.git
+[submodule "database/Abroad-meme/adrena-emojis"]
+	path = database/Abroad-meme/adrena-emojis
+	url = git@github.com:AgtLucas/adrena-emojis.git
+[submodule "database/Abroad-meme/awesome-emoji"]
+	path = database/Abroad-meme/awesome-emoji
+	url = git@github.com:snipe/awesome-emoji.git
+[submodule "database/Abroad-meme/slackmoji"]
+	path = database/Abroad-meme/slackmoji
+	url = git@github.com:seanprashad/slackmoji.git
+[submodule "database/Abroad-meme/fluentui-emoji"]
+	path = database/Abroad-meme/fluentui-emoji
+	url = git@github.com:microsoft/fluentui-emoji.git
+[submodule "database/Abroad-meme/dev-hearts"]
+	path = database/Abroad-meme/dev-hearts
+	url = git@github.com:lukeocodes/dev-hearts.git
+[submodule "database/Abroad-meme/web-tech-and-dev-emoji"]
+	path = database/Abroad-meme/web-tech-and-dev-emoji
+	url = git@github.com:dannyfritz/web-tech-and-dev-emoji.git
+[submodule "database/Abroad-meme/Memes-Collection"]
+	path = database/Abroad-meme/Memes-Collection
+	url = git@github.com:Johnypier/Memes-Collection.git
+[submodule "database/Abroad-meme/rooCollection"]
+	path = database/Abroad-meme/rooCollection
+	url = git@github.com:LevitatingBusinessMan/rooCollection.git
+[submodule "database/Abroad-meme/emoji"]
+	path = database/Abroad-meme/emoji
+	url = git@github.com:erindatkinson/emoji.git
+[submodule "database/Abroad-meme/expression-pack"]
+	path = database/Abroad-meme/expression-pack
+	url = git@github.com:atanet90/expression-pack.git
