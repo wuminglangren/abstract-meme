@@ -73,3 +73,9 @@
 [submodule "database/Abroad-meme/expression-pack"]
 	path = database/Abroad-meme/expression-pack
 	url = git@github.com:atanet90/expression-pack.git
+[submodule "database/fonts/powerline_fonts"]
+	path = database/fonts/powerline_fonts
+	url = git@github.com:powerline/fonts.git
+[submodule "database/fonts/google_fonts"]
+	path = database/fonts/google_fonts
+	url = git@github.com:google/fonts.git
