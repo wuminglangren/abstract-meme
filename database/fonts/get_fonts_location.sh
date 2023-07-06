@@ -1,0 +1,1 @@
+fc-list > installed_fonts.txt
