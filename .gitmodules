@@ -82,3 +82,36 @@
 [submodule "database/fonts/nerd-fonts"]
 	path = database/fonts/nerd-fonts
 	url = git@github.com:ryanoasis/nerd-fonts.git
+[submodule "database/fonts/cores/BlinkMacSystemFont"]
+	path = database/fonts/cores/BlinkMacSystemFont
+	url = git@github.com:aliifam/BlinkMacSystemFont.git
+[submodule "database/fonts/cores/helvetica-neue"]
+	path = database/fonts/cores/helvetica-neue
+	url = git@github.com:ifvictr/helvetica-neue.git
+[submodule "database/fonts/cores/nurse-full-source"]
+	path = database/fonts/cores/nurse-full-source
+	url = git@github.com:PersuasiveGameCompetition/nurse-full-source.git
+[submodule "database/fonts/cores/Arial-Font"]
+	path = database/fonts/cores/Arial-Font
+	url = git@github.com:heriira/Arial-Font.git
+[submodule "database/fonts/cores/PingFang-Fonts"]
+	path = database/fonts/cores/PingFang-Fonts
+	url = git@github.com:paraself/PingFang-Fonts.git
+[submodule "database/fonts/cores/font-PingFang-SC"]
+	path = database/fonts/cores/font-PingFang-SC
+	url = git@github.com:TimeoutY/font-PingFang-SC.git
+[submodule "database/fonts/cores/Resources"]
+	path = database/fonts/cores/Resources
+	url = git@github.com:ole3021/Resources.git
+[submodule "database/fonts/cores/microsoft-yahei"]
+	path = database/fonts/cores/microsoft-yahei
+	url = git@github.com:fernvenue/microsoft-yahei.git
+[submodule "database/fonts/cores/fonts-wqy-microhei"]
+	path = database/fonts/cores/fonts-wqy-microhei
+	url = git@github.com:anthonyfok/fonts-wqy-microhei.git
+[submodule "database/fonts/cores/noto-cjk"]
+	path = database/fonts/cores/noto-cjk
+	url = git@github.com:notofonts/noto-cjk.git
+[submodule "database/fonts/cores/source-han-sans"]
+	path = database/fonts/cores/source-han-sans
+	url = git@github.com:adobe-fonts/source-han-sans.git
