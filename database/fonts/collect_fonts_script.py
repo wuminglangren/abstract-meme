@@ -20,7 +20,8 @@ def collect_all_fonts():
         for line in lines:
             installed_fonts_collection.append(line)
 
-    match_pattern = r"^(\/.*\.(ttf|otf|ttc)).*?$"
+    # match_pattern = r"^(\/.*\.(ttf|otf|ttc)).*?$"
+    match_pattern = r"^(\/.*\.(ttf)).*?$"
     for font in installed_fonts_collection:
         matched = re.search(match_pattern, font)
         if matched:

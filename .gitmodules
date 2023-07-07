@@ -79,3 +79,6 @@
 [submodule "database/fonts/google_fonts"]
 	path = database/fonts/google_fonts
 	url = git@github.com:google/fonts.git
+[submodule "database/fonts/nerd-fonts"]
+	path = database/fonts/nerd-fonts
+	url = git@github.com:ryanoasis/nerd-fonts.git
