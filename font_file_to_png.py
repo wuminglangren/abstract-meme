@@ -31,7 +31,7 @@ def print_all(font_file_path, font_size, image_width, image_height, font_color =
 
 
     # Iterate over the Unicode character range
-    for char_code in range(0x00020, 0xFFFFF + 1):
+    for char_code in range(0x00020, 0xFFFFFF + 1):
         # print(hex(char_code), int(char_code), char, end=" ")
         # print(hex(char_code), int(char_code))
 
@@ -200,7 +200,7 @@ def print_all_seperately(font_file_path, font_size, font_color = (0,0,0), backgr
 
 
     # Iterate over the Unicode character range
-    for char_code in range(0x00020, 0xFFFFF + 1):
+    for char_code in range(0x00020, 0xFFFFFF + 1):
         # print(hex(char_code), int(char_code), char, end=" ")
 
         if has_glyph(loaded_font, char_code):
@@ -224,7 +224,7 @@ def print_all_seperately(font_file_path, font_size, font_color = (0,0,0), backgr
     print(data_collection[1].max(), data_collection[1].mean())
 
     # Iterate over the Unicode character range
-    for char_code in range(0x00020, 0xFFFFF + 1):
+    for char_code in range(0x00020, 0xFFFFFF + 1):
         # print(hex(char_code), int(char_code), char, end=" ")
 
         if has_glyph(loaded_font, char_code):

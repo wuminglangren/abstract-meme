@@ -161,8 +161,8 @@ cython_debug/
 
 # customized
 #
-try-repositories/
-possible-repositories/
-database/fonts/collected_fonts
-try-scripts/
+try-repositories/*
+possible-repositories/*
+database/fonts/collected_fonts/*
+try-scripts/*
 database/fonts/treated_fonts/*
