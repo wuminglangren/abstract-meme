@@ -224,7 +224,7 @@ def print_all_seperately(font_file_path, font_size, font_color = (0,0,0), backgr
     print(data_collection[1].max(), data_collection[1].mean())
 
     # Iterate over the Unicode character range
-    for char_code in range(0x000020, 0xFFFFFF + 1):
+    for char_code in range(0x00020, 0xFFFFF + 1):
         # print(hex(char_code), int(char_code), char, end=" ")
 
         if has_glyph(loaded_font, char_code):
@@ -308,7 +308,7 @@ if __name__ =="__main__":
     for root, dirs, files in os.walk(FONTS_DATABESE):
         for file in files:
             file_path = os.path.join(root, file)
-            print_all_seperately(file_path, 72, (0,0,0), (255,255,255), "/home/wuming/Documents/abstract-meme/font_all_seperately/")
+            print_all_seperately(file_path, 72, (0,0,0), (255,255,255), "/home/wuming/Documents/abstract-meme/database/fonts/treated_fonts")
 
     # print_all_seperately("test_font.ttf", 72, (0,0,0), (255,255,255), "/home/wuming/Documents/abstract-meme/font_all_seperately/")
 
