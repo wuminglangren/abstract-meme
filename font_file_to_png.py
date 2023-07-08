@@ -232,18 +232,16 @@ def print_all_seperately(font_file_path, largest_font_size, font_color = (0,0,0)
 
         if has_glyph(loaded_font, char_code):
 
-            part_image_frame = frame_shape
-            part_image = Image.new("RGB", part_image_frame, color=background_color)
+            part_image = Image.new("RGB", frame_shape, color=background_color)
             part_draw = ImageDraw.Draw(part_image)
             part_draw_anchor = (math.floor(frame_shape[0] / 2),math.floor(frame_shape[0]/2))
             part_draw.text(part_draw_anchor,text=chr(char_code), font=tmp_font, anchor="mm", fill=font_color)
 
-            while touch_edge(part_image, detect_color=(0,0,0), edge_width=5):
-                tmp_font_size -= 1
+            while touch_edge(part_image, detect_color=(0,0,0), edge_width=frame_edge_size):
+                tmp_font_size -= 2
                 tmp_font = tmp_font.font_variant(size = tmp_font_size)
 
-                part_image_frame = frame_shape
-                part_image = Image.new("RGB", part_image_frame, color=background_color)
+                part_image = Image.new("RGB", frame_shape, color=background_color)
                 part_draw = ImageDraw.Draw(part_image)
                 part_draw_anchor = (math.floor(frame_shape[0] / 2),math.floor(frame_shape[0]/2))
                 part_draw.text(part_draw_anchor,text=chr(char_code), font=tmp_font, anchor="mm", fill=font_color)
@@ -341,7 +339,7 @@ if __name__ =="__main__":
         for file in files:
             file_path = os.path.join(root, file)
             print(file_path)
-            print_all_seperately(file_path, 72, (0,0,0), (255,255,255), frame_shape=(40,40), frame_edge_size= 3, output_dir_path="/home/wuming/Documents/abstract-meme/database/fonts/treated_fonts/")
+            print_all_seperately(file_path, 144, (0,0,0), (255,255,255), frame_shape=(50,50), frame_edge_size= 5, output_dir_path="/home/wuming/Documents/abstract-meme/database/fonts/treated_fonts/")
 
     # print_all_seperately("test_font.ttf", 72, (0,0,0), (255,255,255), "/home/wuming/Documents/abstract-meme/font_all_seperately/")
 
