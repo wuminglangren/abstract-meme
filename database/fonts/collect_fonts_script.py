@@ -48,10 +48,12 @@ def collect_all_fonts():
 
             if matched:
                 try:
-                    print("copied", tmp_string)
                     shutil.copy(matched.group(1), FONTS_DATA)
                 except shutil.SameFileError as e:
                     print("uncopied", e)
+                except FileNotFoundError as e:
+                    print("Cannot copy:", e )
+                
 
 
     pass

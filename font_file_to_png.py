@@ -251,23 +251,23 @@ def print_all_seperately(font_file_path, largest_font_size, font_color = (0,0,0)
 
 
             preserve_dir_path = output_dir_path + str(int(char_code)) + "_" + str(hex(char_code))
-            if not(os.path.exists(preserve_dir_path)):
-                os.mkdir(preserve_dir_path)
+            if (os.path.exists(preserve_dir_path)):
+                # os.mkdir(preserve_dir_path)
 
-            # print(char_code, type(char_code), char, type(char))
-            if (int(char_code) == 47):
-                # print("first choice")
-                preserve_path = output_dir_path + str(int(char_code)) + "_" + str(hex(char_code)) + "/" + font_name + "_" + str(int(char_code)) + "_" + str(hex(char_code)) + "_" + "slash" + ".png"
-            else:
-                # print("second choice")
-                # preserve_path = output_dir_path + str(int(char_code)) + "_" + str(hex(char_code)) + " " + chr(char_code) + ".png"
-                preserve_path = output_dir_path + str(int(char_code)) + "_" + str(hex(char_code)) + "/" + font_name + "_" + str(int(char_code)) + "_" + str(hex(char_code)) + "_" + chr(char_code) + ".png"
-            # print(char_code, preserve_path)
+                # print(char_code, type(char_code), char, type(char))
+                if (int(char_code) == 47):
+                    # print("first choice")
+                    preserve_path = output_dir_path + str(int(char_code)) + "_" + str(hex(char_code)) + "/" + font_name + "_" + str(int(char_code)) + "_" + str(hex(char_code)) + "_" + "slash" + ".png"
+                else:
+                    # print("second choice")
+                    # preserve_path = output_dir_path + str(int(char_code)) + "_" + str(hex(char_code)) + " " + chr(char_code) + ".png"
+                    preserve_path = output_dir_path + str(int(char_code)) + "_" + str(hex(char_code)) + "/" + font_name + "_" + str(int(char_code)) + "_" + str(hex(char_code)) + "_" + chr(char_code) + ".png"
+                # print(char_code, preserve_path)
 
 
-            part_image.save(preserve_path, "PNG")
-            # print(char, char_code)
-            # print()
+                part_image.save(preserve_path, "PNG")
+                # print(char, char_code)
+                # print()
 
         else:
             # print("Does not exists:", int(char_code), hex(char_code))
@@ -341,7 +341,7 @@ if __name__ =="__main__":
         for file in files:
             file_path = os.path.join(root, file)
             print(file_path)
-            print_all_seperately(file_path, 36, (0,0,0), (255,255,255), frame_shape=(20,20), frame_edge_size= 3, output_dir_path="/home/wuming/Documents/abstract-meme/database/fonts/treated_fonts/")
+            print_all_seperately(file_path, 72, (0,0,0), (255,255,255), frame_shape=(40,40), frame_edge_size= 3, output_dir_path="/home/wuming/Documents/abstract-meme/database/fonts/treated_fonts/")
 
     # print_all_seperately("test_font.ttf", 72, (0,0,0), (255,255,255), "/home/wuming/Documents/abstract-meme/font_all_seperately/")
 
