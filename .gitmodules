@@ -115,3 +115,6 @@
 [submodule "database/fonts/cores/source-han-sans"]
 	path = database/fonts/cores/source-han-sans
 	url = git@github.com:adobe-fonts/source-han-sans.git
+[submodule "database/fonts/cores/source-sans"]
+	path = database/fonts/cores/source-sans
+	url = git@github.com:adobe-fonts/source-sans.git
