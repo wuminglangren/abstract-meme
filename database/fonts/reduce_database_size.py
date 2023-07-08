@@ -44,9 +44,9 @@ def limit_fonts():
 
         tmp_name = str(int(CHAR_RANGE[i])) + "_" + str(hex(CHAR_RANGE[i]))
         tmp_name_full = PRESERVED_TREATED_FONTS + tmp_name + "/"
-        print(tmp_name)
-        print(tmp_name in subdir_names)
-        print(subdir_names)
+        # print(tmp_name)
+        # print(tmp_name in subdir_names)
+        # print(subdir_names)
         if not(tmp_name in subdir_names):
             os.mkdir(tmp_name_full)
     

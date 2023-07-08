@@ -7,6 +7,8 @@ import os
 import math
 from database.fonts.collect_fonts_script import FONTS_DATA
 
+import multiprocessing as mp
+
 CHAR_RANGE = [*range(0x20, 0x4f7+1), *range(0x1d24,0x232c+1), *range(0x259f, 0x27e9+1), *range(0x2c60, 0x2e53+1), *range(0xa71c,0xa7f5+1), *range(0xab30, 0xab68+1), *range(0x110000, 0x110369+1)]
 
 def has_glyph(font, char_code):
@@ -225,7 +227,11 @@ def print_all_seperately(font_file_path, largest_font_size, font_color = (0,0,0)
     # print(data_collection[1].max(), data_collection[1].mean())
 
     # Iterate over the Unicode character range
+
+    # print(font_file_path)
+    # print("out of loop:", frame_shape)
     for char_code in CHAR_RANGE:
+        # print("in loop:", frame_shape)
         # print(hex(char_code), int(char_code), char, end=" ")
         tmp_font_size = largest_font_size
         tmp_font = font.font_variant(size = tmp_font_size)
@@ -237,7 +243,10 @@ def print_all_seperately(font_file_path, largest_font_size, font_color = (0,0,0)
             part_draw_anchor = (math.floor(frame_shape[0] / 2),math.floor(frame_shape[0]/2))
             part_draw.text(part_draw_anchor,text=chr(char_code), font=tmp_font, anchor="mm", fill=font_color)
 
+            # print("initialized part:", frame_shape, "|", char_code)
+
             while touch_edge(part_image, detect_color=(0,0,0), edge_width=frame_edge_size):
+                # print("looped loop part:", frame_shape)
                 tmp_font_size -= 2
                 tmp_font = tmp_font.font_variant(size = tmp_font_size)
 
@@ -328,19 +337,28 @@ def touch_edge(image, detect_color = (0,0,0), edge_width:int = 1 ):
         pass
     return detected
 
+def process_file_with_presets(file_path):
+    print_all_seperately(file_path, 144, (0,0,0), (255,255,255), frame_shape=(50,50), frame_edge_size= 5, output_dir_path="/home/wuming/Documents/abstract-meme/database/fonts/treated_fonts/")
+
 
 if __name__ =="__main__":
 
     # print_all("test_font.ttf", 72, 5000, 5000, (0,0,0), (255,255,255), "test_test_test.png")
 
-    from database.fonts.collect_fonts_script import FONTS_DATA
 
+    file_paths = []
     for root, dirs, files in os.walk(FONTS_DATA):
         for file in files:
             file_path = os.path.join(root, file)
+            file_paths.append(file_path)
             print(file_path)
-            print_all_seperately(file_path, 144, (0,0,0), (255,255,255), frame_shape=(50,50), frame_edge_size= 5, output_dir_path="/home/wuming/Documents/abstract-meme/database/fonts/treated_fonts/")
+            # print_all_seperately(file_path, 144, (0,0,0), (255,255,255), frame_shape=(50,50), frame_edge_size= 5, output_dir_path="/home/wuming/Documents/abstract-meme/database/fonts/treated_fonts/")
 
+    pool = mp.Pool()
+    pool.map(process_file_with_presets, file_paths)
+
+    pool.close()
+    pool.join
     # print_all_seperately("test_font.ttf", 72, (0,0,0), (255,255,255), "/home/wuming/Documents/abstract-meme/font_all_seperately/")
 
-    clean_blanks_which_should_not_be_blank(FONTS_DATA)
+    # clean_blanks_which_should_not_be_blank(FONTS_DATA)
