@@ -5,7 +5,7 @@ import shutil
 import timeit
 
 SYSTEM_INSTALLED_FONTS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "installed_fonts.txt")
-FONTS_DATABESE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "collected_fonts/")
+FONTS_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "collected_fonts/")
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 installed_fonts_abs_path = []
@@ -30,12 +30,12 @@ def collect_all_fonts():
         else:
             print(font)
     
-    if not(os.path.exists(FONTS_DATABESE)):
-        os.makedirs(FONTS_DATABESE)
+    if not(os.path.exists(FONTS_DATA)):
+        os.makedirs(FONTS_DATA)
 
 
     for font in installed_fonts_abs_path:
-        shutil.copy(font, FONTS_DATABESE)
+        shutil.copy(font, FONTS_DATA)
 
     
 
@@ -49,7 +49,7 @@ def collect_all_fonts():
             if matched:
                 try:
                     print("copied", tmp_string)
-                    shutil.copy(matched.group(1), FONTS_DATABESE)
+                    shutil.copy(matched.group(1), FONTS_DATA)
                 except shutil.SameFileError as e:
                     print("uncopied", e)
 

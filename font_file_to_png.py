@@ -5,7 +5,9 @@ import numpy as np
 import re
 import os
 import math
-from database.fonts.collect_fonts_script import FONTS_DATABESE
+from database.fonts.collect_fonts_script import FONTS_DATA
+
+CHAR_RANGE = [*range(0x20, 0x4f7+1), *range(0x1d24,0x232c+1), *range(0x259f, 0x27e9+1), *range(0x2c60, 0x2e53+1), *range(0xa71c,0xa7f5+1), *range(0xab30, 0xab68+1), *range(0x110000, 0x110369+1)]
 
 def has_glyph(font, char_code):
     for table in font['cmap'].tables:
@@ -31,7 +33,7 @@ def print_all(font_file_path, font_size, image_width, image_height, font_color =
 
 
     # Iterate over the Unicode character range
-    for char_code in range(0x00020, 0xFFFFFF + 1):
+    for char_code in CHAR_RANGE:
         # print(hex(char_code), int(char_code), char, end=" ")
         # print(hex(char_code), int(char_code))
 
@@ -183,62 +185,70 @@ def print_all(font_file_path, font_size, image_width, image_height, font_color =
 
 #         char = None
 
-def print_all_seperately(font_file_path, font_size, font_color = (0,0,0), background_color = (255,255,255), output_dir_path = "font_all_seperately"):
+def print_all_seperately(font_file_path, largest_font_size, font_color = (0,0,0), background_color = (255,255,255), frame_shape = (20,20), frame_edge_size = 3, output_dir_path = "font_all_seperately"):
 
     data_collection = None
     
     # Load the font
-    font = ImageFont.truetype(font_file_path, font_size)
+    font = ImageFont.truetype(font_file_path, largest_font_size)
     loaded_font = TTFont(font_file_path)
 
     match_pattern = r"([^\/]+)\.ttf$"
-    print(font_file_path)
-    print(re.search(match_pattern, font_file_path))
+    # print(font_file_path)
+    # print(re.search(match_pattern, font_file_path))
     font_name = re.search(match_pattern, font_file_path).group(1)
-    print(font_name)
-    zoom_rate = 1
+    # print(font_name)
 
+
+    # # Iterate over the Unicode character range
+    # for char_code in range(0x00020, 0xFFFFFF + 1):
+    #     # print(hex(char_code), int(char_code), char, end=" ")
+
+    #     if has_glyph(loaded_font, char_code):
+
+    #         location_collection = font.getbbox(text=chr(char_code))
+    #         char_width = location_collection[2] - location_collection[0]
+    #         char_height = location_collection[3] - location_collection[1]
+            
+    #         if data_collection is None:
+    #             data_collection = np.array([char_width, char_height])
+    #         else:
+    #             tmp_data = np.array([char_width, char_height])
+    #             data_collection = np.vstack((data_collection, tmp_data))
+    #     else:
+    #         pass
+
+    #     char = None
+
+    # print(data_collection.shape)
+    # print(data_collection[0].max(), data_collection[0].mean())
+    # print(data_collection[1].max(), data_collection[1].mean())
 
     # Iterate over the Unicode character range
-    for char_code in range(0x00020, 0xFFFFFF + 1):
+    for char_code in CHAR_RANGE:
         # print(hex(char_code), int(char_code), char, end=" ")
+        tmp_font_size = largest_font_size
+        tmp_font = font.font_variant(size = tmp_font_size)
 
         if has_glyph(loaded_font, char_code):
 
-            location_collection = font.getbbox(text=chr(char_code))
-            char_width = location_collection[2] - location_collection[0]
-            char_height = location_collection[3] - location_collection[1]
-            
-            if data_collection is None:
-                data_collection = np.array([char_width, char_height])
-            else:
-                tmp_data = np.array([char_width, char_height])
-                data_collection = np.vstack((data_collection, tmp_data))
-        else:
-            pass
-
-        char = None
-
-    print(data_collection.shape)
-    print(data_collection[0].max(), data_collection[0].mean())
-    print(data_collection[1].max(), data_collection[1].mean())
-
-    # Iterate over the Unicode character range
-    for char_code in range(0x00020, 0xFFFFFF + 1):
-        # print(hex(char_code), int(char_code), char, end=" ")
-
-        if has_glyph(loaded_font, char_code):
-
-            location_collection = font.getbbox(text=chr(char_code))
-            char_width = location_collection[2] - location_collection[0]
-            char_height = location_collection[3] - location_collection[1]
-            
-            part_image_frame_one_side = data_collection.max()
-            part_image_frame = (math.ceil(part_image_frame_one_side*zoom_rate), math.ceil(part_image_frame_one_side*zoom_rate))
+            part_image_frame = frame_shape
             part_image = Image.new("RGB", part_image_frame, color=background_color)
             part_draw = ImageDraw.Draw(part_image)
-            part_draw_anchor = (int(part_image_frame_one_side/2), int(part_image_frame_one_side/2))
-            part_draw.text(part_draw_anchor,text=chr(char_code), font=font, anchor="mm", fill=font_color)
+            part_draw_anchor = (math.floor(frame_shape[0] / 2),math.floor(frame_shape[0]/2))
+            part_draw.text(part_draw_anchor,text=chr(char_code), font=tmp_font, anchor="mm", fill=font_color)
+
+            while touch_edge(part_image, detect_color=(0,0,0), edge_width=5):
+                tmp_font_size -= 1
+                tmp_font = tmp_font.font_variant(size = tmp_font_size)
+
+                part_image_frame = frame_shape
+                part_image = Image.new("RGB", part_image_frame, color=background_color)
+                part_draw = ImageDraw.Draw(part_image)
+                part_draw_anchor = (math.floor(frame_shape[0] / 2),math.floor(frame_shape[0]/2))
+                part_draw.text(part_draw_anchor,text=chr(char_code), font=tmp_font, anchor="mm", fill=font_color)
+                pass
+
 
             preserve_dir_path = output_dir_path + str(int(char_code)) + "_" + str(hex(char_code))
             if not(os.path.exists(preserve_dir_path)):
@@ -252,7 +262,7 @@ def print_all_seperately(font_file_path, font_size, font_color = (0,0,0), backgr
                 # print("second choice")
                 # preserve_path = output_dir_path + str(int(char_code)) + "_" + str(hex(char_code)) + " " + chr(char_code) + ".png"
                 preserve_path = output_dir_path + str(int(char_code)) + "_" + str(hex(char_code)) + "/" + font_name + "_" + str(int(char_code)) + "_" + str(hex(char_code)) + "_" + chr(char_code) + ".png"
-            print(char_code, preserve_path)
+            # print(char_code, preserve_path)
 
 
             part_image.save(preserve_path, "PNG")
@@ -299,17 +309,40 @@ def is_png_blank(image_path):
             
     return True
 
+
+def touch_edge(image, detect_color = (0,0,0), edge_width:int = 1 ):
+    detected = False
+    image_np = np.asarray(image)
+
+    if edge_width >= 1:
+
+        for i in range(0,edge_width):
+            detected = bool(detected + np.isin(detect_color, image_np[i]).any())
+            detected = bool(detected + np.isin(detect_color, image_np[:][i]).any())
+        
+        for i in range(-edge_width, 0):
+            detected = bool(detected + np.isin(detect_color, image_np[i]).any())
+            detected = bool(detected + np.isin(detect_color, image_np[:][i]).any())
+
+        pass
+    else:
+        raise ValueError
+        pass
+    return detected
+
+
 if __name__ =="__main__":
 
     # print_all("test_font.ttf", 72, 5000, 5000, (0,0,0), (255,255,255), "test_test_test.png")
 
-    from database.fonts.collect_fonts_script import FONTS_DATABESE
+    from database.fonts.collect_fonts_script import FONTS_DATA
 
-    for root, dirs, files in os.walk(FONTS_DATABESE):
+    for root, dirs, files in os.walk(FONTS_DATA):
         for file in files:
             file_path = os.path.join(root, file)
-            print_all_seperately(file_path, 72, (0,0,0), (255,255,255), "/home/wuming/Documents/abstract-meme/database/fonts/treated_fonts")
+            print(file_path)
+            print_all_seperately(file_path, 36, (0,0,0), (255,255,255), frame_shape=(20,20), frame_edge_size= 3, output_dir_path="/home/wuming/Documents/abstract-meme/database/fonts/treated_fonts/")
 
     # print_all_seperately("test_font.ttf", 72, (0,0,0), (255,255,255), "/home/wuming/Documents/abstract-meme/font_all_seperately/")
 
-    clean_blanks_which_should_not_be_blank(FONTS_DATABESE)
+    clean_blanks_which_should_not_be_blank(FONTS_DATA)
