@@ -166,3 +166,5 @@ possible-repositories/*
 database/fonts/collected_fonts/*
 try-scripts/*
 database/fonts/treated_fonts/*
+*.db
+*.zip

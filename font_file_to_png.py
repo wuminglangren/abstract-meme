@@ -361,4 +361,4 @@ if __name__ =="__main__":
     pool.join
     # print_all_seperately("test_font.ttf", 72, (0,0,0), (255,255,255), "/home/wuming/Documents/abstract-meme/font_all_seperately/")
 
-    # clean_blanks_which_should_not_be_blank(FONTS_DATA)
+    clean_blanks_which_should_not_be_blank(FONTS_DATA)
