@@ -89,8 +89,11 @@ def delete_specific_fonts():
     for font_name in font_names:
         for target_name in target_fonts:
             if target_name in font_name.lower():
-                os.remove(os.path.join(FONTS_DATA,font_name))
-                font_names.remove(font_name)
+                try:
+                    os.remove(os.path.join(FONTS_DATA,font_name))
+                    font_names.remove(font_name)
+                except FileNotFoundError as e:
+                    print (e, font_name)
 
 
 if __name__ == "__main__":

@@ -183,7 +183,8 @@ class training_fonts_connection:
             try:
                 self.cursor.execute(f"PRAGMA table_info(FONTS)")
 
-                column_names = self.cursor.fetchall()
+                raw = self.cursor.fetchall()
+                column_names = [name[1] for name in raw ]
 
                 if not(column_name.upper() in column_names):
                     raise NameError
@@ -202,6 +203,36 @@ class training_fonts_connection:
             print("Please select a column")
         
         pass
+
+    # def get_num_of_same_value(column_name:str = "ALL", value = None):
+
+    #     select_query = ""
+    #     if column_name.lower() == "all":
+    #         select_query = "SELECT COUNT(*) FROM FONTS"
+    #     else:
+
+    #         try:
+
+    #             self.cursor.execute(f"PRAGMA table_info(FONTS)")
+
+    #             raw = self.cursor.fetchall()
+    #             column_names = [name[1] for name in raw ]
+
+    #             if not(column_name.upp() in column_names):
+    #                 raise NameError
+    #             if value == None:
+    #                 value = "*"
+                
+    #             select_query = f"SELECT COUNT({column_name.upper()}) FROM FONTS WHERE {column_name.upper()} = ({value})"
+                
+
+    #         except NameError:
+    #             print("The column_name is not available in the table FONTS")
+
+    #     self.cursor.execute(select_query)
+    #     number = int(self.cursor.fetchall())
+
+    #     return number
 
     def delete_with_exact_value(self, utf_8 : int = None, abs_path : str = None, font_name : str = None, font_type : str = None) -> None:
 

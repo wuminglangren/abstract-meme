@@ -169,3 +169,4 @@ database/fonts/treated_fonts/*
 *.db
 *.zip
 *.db*
+*.txt
