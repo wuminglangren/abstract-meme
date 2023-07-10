@@ -168,3 +168,4 @@ try-scripts/*
 database/fonts/treated_fonts/*
 *.db
 *.zip
+*.db*

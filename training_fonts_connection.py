@@ -24,7 +24,10 @@ class training_fonts_connection:
 
         # match_pattern = r"/([\d\w]+)_(0x[0-9a-fA-F]+)\/(\w*)-(\w*)_(\d*)_([\d\w]*)_"
         # match_pattern = r".*?\/.*[\d\w]([\d\w]+)_"
-        match_pattern = r".*?\/([\d\w]+)_(0x[0-9a-fA-F]+)\/(\w*)-(\w*)_(\d*)_([\d\w]*)_"
+        # match_pattern = r".*?\/([\d\w]+)_(0x[0-9a-fA-F]+)\/([\w-]*)-(\w*)_(\d*)_([\d\w]*)_"
+        # match_pattern = r".*?\/([\d]+)_(0x[\w]+)\/([\w-_].*)-([\w\d.]+)_([\d]+)_(0x[\w]+)_"
+        match_pattern = r".*?\/([\d]+)_(0x[\w]+)\/([0-9a-zA-Z_-]+)-([0-9a-zA-Z.]+)_([\d]+)_(0x[\w]+)_"
+
         collected_datas = []
         for root, dirs, files in os.walk(DATA_FATHER_PATH):
 
@@ -36,18 +39,19 @@ class training_fonts_connection:
             # Print all filenames
             for file in files:
                 # print(os.path.join(root, file))
-                path = os.path.join(root,file)
-                result = re.match(match_pattern, path)
+                abs_path = os.path.join(root,file)
+                result = re.match(match_pattern, abs_path)
                 if result:
                     # print(result.group(1), result.group(2), result.group(3), result.group(4), result.group(5), result.group(6), " ",sep="\n")
                     # result.group(1) = result.group(5) = utf-8, 10 base
                     # result.group (2) = result.group(6) = utf-8, 16 base
                     # result.group(3) = font name
                     # result.group(4) = font type
-                    collected_datas.append((result.group(1), path, result.group(3), result.group(4)))
+                    collected_datas.append((result.group(1), abs_path, result.group(3), result.group(4)))
                     pass
                 else:
-                    print("not matched", path)
+                    print("not matched", abs_path)
+                    print(file)
                 result = None
                 
 
@@ -62,8 +66,8 @@ class training_fonts_connection:
                     self.cursor.execute("INSERT INTO FONTS (UTF_8, ABS_PATH, FONT_NAME,FONT_TYPE) VALUES (?,?,?,?)", collected_datas[i])
                     print("New Data: ", str(collected_datas[i]))
                 except sqlite3.IntegrityError as f:
-                    # print("IntegrityError:", f)
-                    # print("INFO:", str(collected_datas[i]) )
+                    print("IntegrityError:", f)
+                    print("INFO:", str(collected_datas[i]) )
                     pass
 
         pass

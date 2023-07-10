@@ -4,12 +4,22 @@ import random
 import re
 import shutil
 import sys
+from fontTools.ttLib import TTFont
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from collect_fonts_script import FONTS_DATA
 from font_file_to_png import CHAR_RANGE
 
 PRESERVED_TREATED_FONTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "treated_fonts/")
+STANDARD_FONT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cores/source-sans/TTF/SourceSans3-Regular.ttf")
+
+def has_glyph_in_standard(char_code):
+    font = TTFont(file=STANDARD_FONT)
+    for table in font['cmap'].tables:
+        if char_code in table.cmap.keys():
+            return True
+        
+    return False
 
 def reduce_fonts_number(left_size = 20):
 
@@ -47,14 +57,14 @@ def limit_fonts():
         # print(tmp_name)
         # print(tmp_name in subdir_names)
         # print(subdir_names)
-        if not(tmp_name in subdir_names):
+        if not(tmp_name in subdir_names) and has_glyph_in_standard(CHAR_RANGE[i]):
             os.mkdir(tmp_name_full)
     
     match_pattern = r"(\d.*)_"
     for i in subdir_names:
 
         result = re.match(match_pattern, i)
-        print(result)
+        # print(result)
         if not(int(result.group(1)) in CHAR_RANGE):
             shutil.rmtree(PRESERVED_TREATED_FONTS+i+"/")
 
@@ -62,7 +72,7 @@ def delete_font_depening_on_types():
 
     font_names= [name for name in os.listdir(FONTS_DATA) if os.path.isfile(os.path.join(FONTS_DATA, name))]
 
-    specific_types = ['italic', 'highlight']
+    specific_types = ['italic', 'highlight','oblique']
 
     for name in font_names:
         for specific_type in specific_types:
@@ -74,7 +84,7 @@ def delete_font_depening_on_types():
 def delete_specific_fonts():
     font_names= [name for name in os.listdir(FONTS_DATA) if os.path.isfile(os.path.join(FONTS_DATA, name))]
 
-    target_fonts = ['ubuntu-c_modified', 'adobeblank', 'akronim', 'aksarabaligalang', 'asar-regular', 'cabinsketch', 'codystar', 'fascinateinline', 'fascinate', 'flowblock', 'flowcircular', 'flowrounded','geo-oblique','geo-regular','geostarfill','geostar','hanalei','heavydatanerdfont','jsmath','librebarcode','monofett','missfajardose','monoton','monsterratsubrayada','moolahlah','mysoul','newrocker','portersansblock','redacted','raviprakash','rationale','revalia','rubik80sfade','rubik','zentokyozoo','zillaslabhighlight']
+    target_fonts = ['ubuntu-c_modified', 'adobeblank', 'akronim', 'aksarabaligalang', 'asar-regular', 'cabinsketch', 'codystar', 'fascinateinline', 'fascinate', 'flowblock', 'flowcircular', 'flowrounded','geo-oblique','geo-regular','geostarfill','geostar','hanalei','heavydatanerdfont','jsmath','librebarcode','monofett','missfajardose','monoton','monsterratsubrayada','moolahlah','mysoul','newrocker','portersansblock','redacted','raviprakash','rationale','revalia','rubik80sfade','rubik','zentokyozoo','zillaslabhighlight','londrina','yeonsung','alkalami','anybody','[','bungeeshade','carattere','josefin','subdrayada','mrbedfort','mrssaintdelafield','nosifercaps','nosifer','notoseriftibet','nuosusil', 'silkscreen', '3270','fuzzybulbbles','gwendolyn','hurricane','lavishlyyours','monoid-']
 
     for font_name in font_names:
         for target_name in target_fonts:
@@ -86,4 +96,6 @@ def delete_specific_fonts():
 if __name__ == "__main__":
     # reduce_fonts_number(5)
     limit_fonts()
+    delete_font_depening_on_types()
+    delete_specific_fonts()
     pass
