@@ -6,11 +6,13 @@ import re
 import os
 import math
 from database.fonts.collect_fonts_script import FONTS_DATA
+from sklearn.cluster import KMeans
 
 import multiprocessing as mp
 
 # CHAR_RANGE = [*range(0x20, 0x4f7+1), *range(0x1d24,0x232c+1), *range(0x259f, 0x27e9+1), *range(0x2c60, 0x2e53+1), *range(0xa71c,0xa7f5+1), *range(0xab30, 0xab68+1), *range(0x110000, 0x110369+1)]
 CHAR_RANGE = [*range(0x20, 0x7e+1), *range(0x161,0xbf+1), *range(0x2e5,0x2e9+1)]
+TREATED_FONTS = "/home/wuming/Documents/abstract-meme/database/fonts/treated_fonts/"
 
 def has_glyph(font, char_code):
     for table in font['cmap'].tables:
@@ -188,12 +190,19 @@ def print_all(font_file_path, font_size, image_width, image_height, font_color =
 
 #         char = None
 
-def print_all_seperately(font_file_path, largest_font_size, font_color = (0,0,0), background_color = (255,255,255), frame_shape = (20,20), frame_edge_size = 3, output_dir_path = "font_all_seperately"):
+def print_all_seperately(root_path, font_file_path, largest_font_size, font_color = (0,0,0), background_color = (255,255,255), frame_shape = (20,20), frame_edge_size = 3, output_dir_path = "font_all_seperately"):
 
     data_collection = None
     
     # Load the font
-    font = ImageFont.truetype(font_file_path, largest_font_size)
+    abs_file_path = os.path.join(root_path,font_file_path)
+    current_file_path = os.path.dirname(os.path.abspath(__file__))
+    font_file_path = os.path.relpath(abs_file_path,current_file_path)
+    try:
+        font = ImageFont.truetype(font_file_path, largest_font_size)
+    except OSError as e:
+        print("An error occurred:", str(e))
+        return font_file_path
     loaded_font = TTFont(font_file_path)
 
     match_pattern = r"([^\/]+)\.ttf$"
@@ -283,19 +292,31 @@ def print_all_seperately(font_file_path, largest_font_size, font_color = (0,0,0)
 
         char = None
 
+    return None
+
 def clean_blanks_which_should_not_be_blank(dir_path):
 
+    wait_list = []
     for root, dirs, files in os.walk(dir_path):
 
         for dir in dirs:
-            print(dir)
+            # print(dir)
             if dir != "32_0x20":
-                for subroot, subdirs, subfiles in os.walk(os.path.join(root,dir)):
-                    for subfile in subfiles:
-                        path =os.path.join(subroot,subfile)
-                        if is_png_blank(path):
-                            os.remove(path)
 
+                wait_list.append(os.path.join(root,dir))
+                # print("dir")
+
+                # scan_blank_under_a_dir(os.path.join(root,dir))
+                # for subroot, subdirs, subfiles in os.walk(os.path.join(root,dir)):
+                #     for subfile in subfiles:
+                #         path =os.path.join(subroot,subfile)
+                #         if is_png_blank(path):
+                #             os.remove(path)
+    
+    pool = mp.Pool()
+    pool.map(scan_blank_under_a_dir,wait_list)
+    pool.close()
+    pool.join()
 
     pass
 
@@ -303,43 +324,89 @@ def is_png_blank(image_path):
 
     image = Image.open(image_path)
 
-    image = image.convert("RGB")
+    image = image.convert("L")
 
-    width, height = image.size
-    
-    for y in range(height):
-        for x in range(width):
+    data = np.array(image).flatten()
 
-            r,g,b = image.getpixel((x,y))
+    num_clusters = 2
+    kmeans = KMeans(n_clusters=num_clusters, n_init = 'auto')
+    kmeans.fit(data.reshape(-1,1))
 
-            if r != 255 or g != 255 or b != 255:
-                return False
+    labels = kmeans.labels_
+
+    pixels = np.array(image).flatten()
+    largest_values = []
+    try:
+        for cluster_id in range(num_clusters):
+            cluster_pixels = pixels[labels == cluster_id]
+            largest_value = np.max(cluster_pixels)
+            largest_values.append(largest_value)
+    except ValueError as e:
+        # print(e)
+        return True
+
             
-    return True
+    return False
 
+def scan_blank_under_a_dir(dir_path):
+
+    for subroot, subdirs, subfiles in os.walk(dir_path):
+        for subfile in subfiles:
+            path =os.path.join(subroot,subfile)
+            if is_png_blank(path):
+                os.remove(path)
 
 def touch_edge(image, detect_color = (0,0,0), edge_width:int = 1 ):
-    detected = False
-    image_np = np.asarray(image)
+    # detected = False
+    # image_np = np.asarray(image)
 
-    if edge_width >= 1:
+    # Get the width and height of the image
+    width, height = image.size
 
-        for i in range(0,edge_width):
-            detected = bool(detected + np.isin(detect_color, image_np[i]).any())
-            detected = bool(detected + np.isin(detect_color, image_np[:][i]).any())
+    # Check the top edge
+    for x in range(width):
+        if all(image.getpixel((x, y)) == detect_color for y in range(edge_width)):
+            return True
+
+    # Check the bottom edge
+    for x in range(width):
+        if all(image.getpixel((x, y)) == detect_color for y in range(height - edge_width, height)):
+            return True
+
+    # Check the left edge
+    for y in range(height):
+        if all(image.getpixel((x, y)) == detect_color for x in range( edge_width)):
+            return True
+
+    # Check the right edge
+    for y in range(height):
+        if all(image.getpixel((x, y)) == detect_color for x in range(width - edge_width, width)):
+            return True
+
+    # No black edge detected
+    return False
+
+
+    # if edge_width >= 1:
+
+    #     for i in range(0,edge_width):
+    #         detected = bool(detected + np.isin(detect_color, image_np[i]).any())
+    #         detected = bool(detected + np.isin(detect_color, image_np[:][i]).any())
         
-        for i in range(-edge_width, 0):
-            detected = bool(detected + np.isin(detect_color, image_np[i]).any())
-            detected = bool(detected + np.isin(detect_color, image_np[:][i]).any())
+    #     for i in range(-edge_width, 0):
+    #         detected = bool(detected + np.isin(detect_color, image_np[i]).any())
+    #         detected = bool(detected + np.isin(detect_color, image_np[:][i]).any())
 
-        pass
-    else:
-        raise ValueError
-        pass
-    return detected
+    #     pass
+    # else:
+    #     raise ValueError
+    #     pass
+    # return detected
 
 def process_file_with_presets(file_path):
-    print_all_seperately(file_path, 144, (0,0,0), (255,255,255), frame_shape=(50,50), frame_edge_size= 5, output_dir_path="/home/wuming/Documents/abstract-meme/database/fonts/treated_fonts/")
+    result = print_all_seperately(root_path = FONTS_DATA, font_file_path=file_path, largest_font_size=144, font_color=(0,0,0), background_color=(255,255,255), frame_shape=(50,50), frame_edge_size= 5, output_dir_path=TREATED_FONTS)
+    if result != None:
+        print("error path: ",result)
 
 
 if __name__ =="__main__":
@@ -350,16 +417,20 @@ if __name__ =="__main__":
     file_paths = []
     for root, dirs, files in os.walk(FONTS_DATA):
         for file in files:
-            file_path = os.path.join(root, file)
-            file_paths.append(file_path)
-            print(file_path)
+            # file_path = os.path.join(root, file)
+            # file_paths.append(file_path)
+            # print(file_path)
+            # file_path = os.path.join(root, file)
+            file_paths.append(file)
+            print(file)
+
             # print_all_seperately(file_path, 144, (0,0,0), (255,255,255), frame_shape=(50,50), frame_edge_size= 5, output_dir_path="/home/wuming/Documents/abstract-meme/database/fonts/treated_fonts/")
 
-    pool = mp.Pool()
-    pool.map(process_file_with_presets, file_paths)
+    # pool = mp.Pool()
+    # pool.map(process_file_with_presets, file_paths)
 
-    pool.close()
-    pool.join
+    # pool.close()
+    # pool.join
     # print_all_seperately("test_font.ttf", 72, (0,0,0), (255,255,255), "/home/wuming/Documents/abstract-meme/font_all_seperately/")
 
-    clean_blanks_which_should_not_be_blank(FONTS_DATA)
+    clean_blanks_which_should_not_be_blank(TREATED_FONTS)
