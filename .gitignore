@@ -170,3 +170,4 @@ database/fonts/treated_fonts/*
 *.zip
 *.db*
 *.txt
+database/fonts/treated_data-edge_detection/*

@@ -100,12 +100,11 @@ dataset_labels = np.array(dataset_labels)
 
 
 # Load the pre-trained InceptionV3 model
-base_model = InceptionV3(weights=None, include_top=False, input_shape=input_shape, pooling=max, classes=num_classes, classifier_activation="softmax")
+base_model = InceptionV3(weights=None, include_top=False, input_shape=input_shape)
 
 # Add a global max pooling layer
 x = base_model.output
 x = GlobalMaxPooling2D()(x)
-x = Dense(1024, activation="relu")(x)
 
 # Add a fully connected layer with 400 units (one for each class) and softmax activation
 predictions = Dense(num_classes, activation='softmax')(x)
@@ -114,7 +113,7 @@ predictions = Dense(num_classes, activation='softmax')(x)
 model = Model(inputs=base_model.input, outputs=predictions)
 
 # Compile the model
-model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 
 # Split the dataset into training and validation sets
@@ -128,10 +127,23 @@ train_images, validation_images, train_labels, validation_labels = train_test_sp
 # Define the checkpoint to save the best model weights
 checkpoint = ModelCheckpoint('inceptionv3_model.h5', monitor='val_accuracy', save_best_only=True, mode='max')
 
+# Define the learning rate schedule function
+def lr_schedule(epoch):
+    lr = 0.001  # Initial learning rate
+
+    if epoch > 50:
+        lr *= 0.1
+    elif epoch > 30:
+        lr *= 0.5
+
+    return lr
+
+# Create the LearningRateScheduler callback
+lr_scheduler = LearningRateScheduler(lr_schedule)
+
 # Train the model
 epochs = 10
-# batch_size = num_classes
-batch_size = 512
+batch_size = 64
 
 model.summary()
 
@@ -141,8 +153,7 @@ model.fit(
     batch_size=batch_size,
     epochs=epochs,
     validation_data=(validation_images, validation_labels),
-    callbacks=[checkpoint],
-    verbose = 2)
+    callbacks=[checkpoint])
 
 # Save the model weights
 model.save_weights('inceptionv3_weights.h5')
