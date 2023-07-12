@@ -26,6 +26,8 @@ from png_to_edge_detected import TREATED_EDGE_DATA
 
 MODEL_WEIGHTS_PATH = 'inceptionv3_model.h5'
 
+print("checkpoint0")
+
 def get_subdirectories(path):
     subdirectories = {}
     subdirectories_reversed = {}
@@ -45,23 +47,6 @@ def get_subdirectories(path):
         distinct_value += 1
     return count, subdirectories, subdirectories_reversed
 
-# Provide the path to the directory you want to examine
-directory_path = TREATED_EDGE_DATA
-
-num_dirs, dir_dict, dir_dict_reversed = get_subdirectories(directory_path)
-
-mapping_dict = dir_dict
-mapping_dict_reversed = dir_dict_reversed
-
-# Define the input shape for your images
-input_shape = None
-
-# Define the number of classes
-num_classes = num_dirs
-
-# Load and preprocess your entire dataset
-dataset_images = []  # List of all dataset images (numpy arrays)
-dataset_labels = []  # List of corresponding labels (one-hot encoded)
 
 def get_files_in_subdirectoreis(directory):
     file_path_list = []
@@ -79,20 +64,40 @@ def get_files_in_subdirectoreis(directory):
 def load_npy(filename, label):
     return np.load(filename), label
 
+print("checkpoint1")
+directory_path = TREATED_EDGE_DATA
+
+print("checkpoint2")
+num_dirs, dir_dict, dir_dict_reversed = get_subdirectories(directory_path)
+print("checkpoint3")
+
+mapping_dict = dir_dict
+mapping_dict_reversed = dir_dict_reversed
+
+dataset_images = []
+dataset_labels = []
+
+print("checkpoint4")
 tmp_path_list, tmp_label_list = get_files_in_subdirectoreis(directory_path)
-# for i in range(len(tmp_label_list)):
-#     dataset_labels.append(dir_dict[tmp_label_list[i]])
+print("checkpoint5")
 
 combined_list = []
+
+print("checkpoint6")
 for i in range(len(tmp_label_list)):
     combined_list.append((tmp_path_list[i], dir_dict[tmp_label_list[i]]))
+print("checkpoint7")
 
+print("checkpoint8")
 with mp.Pool() as pool:
     results = pool.starmap(load_npy,combined_list)
+print("checkpoint8")
 
+print("checkpoint9")
 for i in range(len(results)):
     dataset_images.append(results[i][0])
     dataset_labels.append(results[i][1])
+print("checkpoint10")
 
 input_shape = dataset_images[0].shape
 
@@ -100,57 +105,23 @@ input_shape = dataset_images[0].shape
 dataset_images = np.array(dataset_images)
 dataset_labels = np.array(dataset_labels)
 
+print("checkpoint11")
+model = keras.models.load_model(MODEL_WEIGHTS_PATH)
+print("checkpoint12")
 
-# Load the pre-trained InceptionV3 model
-if os.path.exists(MODEL_WEIGHTS_PATH):
-    base_model = InceptionV3(weights=MODEL_WEIGHTS_PATH, include_top=False, input_shape=input_shape, pooling=max, classes=num_classes, classifier_activation="softmax")
-else:
-    base_model = InceptionV3(weights=None, include_top=False, input_shape=input_shape, pooling=max, classes=num_classes, classifier_activation="softmax")
-
-# Add a global max pooling layer
-x = base_model.output
-x = GlobalMaxPooling2D()(x)
-x = Dense(1024, activation="relu")(x)
-
-# Add a fully connected layer with 400 units (one for each class) and softmax activation
-predictions = Dense(num_classes, activation='softmax')(x)
-
-# Create the model
-model = Model(inputs=base_model.input, outputs=predictions)
-
-# Compile the model
-model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-
-
-# Split the dataset into training and validation sets
+print("checkpoint13")
 train_images, validation_images, train_labels, validation_labels = train_test_split(
     dataset_images,
     dataset_labels,
-    test_size=0.2,  # Adjust the validation set size as desired
-    random_state=42  # Set a random seed for reproducibility
-)
+    test_size=0.2,
+    random_state=42)
+print("checkpoint14")
 
-# Define the checkpoint to save the best model weights
-checkpoint = ModelCheckpoint(MODEL_WEIGHTS_PATH, monitor='val_accuracy', save_best_only=True, mode='max')
-
-# Train the model
-epochs = 10
-# batch_size = num_classes
-batch_size = 64
-
+print("checkpoint15")
 model.summary()
+print("checkpoint16")
 
-model.fit(
-    train_images,
-    train_labels,
-    batch_size=batch_size,
-    epochs=epochs,
-    validation_data=(validation_images, validation_labels),
-    callbacks=[checkpoint],
-    verbose = 1)
-
+print("checkpoint17")
 loss, accuracy = model.evaluate(validation_images, validation_labels)
 print(f"loss: {loss}, accuracy: {accuracy}")
-
-# Save the model weights
-model.save_weights(MODEL_WEIGHTS_PATH)
+print("checkpoint18")
