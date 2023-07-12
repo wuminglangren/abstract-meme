@@ -6,42 +6,66 @@ from keras.preprocessing.image import img_to_array
 from keras.applications.inception_v3 import InceptionV3
 
 from training import get_subdirectories
+import math
+import multiprocessing as mp
+import timeit
+import cv2
+from PIL import Image, ImageDraw, ImageFont
+from fontTools.ttLib import TTFont
+
 from png_to_edge_detected import TREATED_EDGE_DATA
+from training import MODEL_WEIGHTS_PATH
 
-def predict_image(image_array, input_shape, weights_path):
+STANDARD_FONT_PATH = "standard-font.ttf"
 
-    num_dirs, dir_dict, dir_dict_reversed = get_subdirectories(TREATED_EDGE_DATA)
-    # Define the number of classes
-    num_classes = num_dirs
+class prediction:
+    def __init__(self):
+        self.num_dirs = None
+        self.dir_dict = None
+        self.dir_dict_reversed = None
+        self.num_dirs, self.dir_dict, self.dir_dict_reversed = get_subdirectories(TREATED_EDGE_DATA)
+        self.num_classes = self.num_dirs
+        self.model = keras.models.load_model(MODEL_WEIGHTS_PATH)
+        self.parts = []
+        self.predicted =[]
+        self.image = None
+        pass
 
-    if input_shape != (100,100,1):
-        raise ValueError("Please resize the input to (100,100,1)")
+    def predict_one_part_image(self, image_array, input_shape):
 
-    # Load the pre-trained InceptionV3 model
-    base_model = InceptionV3(weights=None, include_top=False, input_shape=input_shape)
+        if input_shape != (100,100,1):
+            raise ValueError("Please resize the input to (100,100,1)")
 
-    # Add a global max pooling layer
-    x = base_model.output
-    x = GlobalMaxPooling2D()(x)
+        predictions = self.model.predict(image_array)
 
-    # Add a fully connected layer with 80 units (one for each class) and softmax activation
-    predictions = Dense(num_classes, activation='softmax')(x)
+        predicted_class = np.argmax(predictions[0])
 
-    # Create the model
-    model = Model(inputs=base_model.input, outputs=predictions)
+        return predicted_class, predictions
 
-    # Load the trained model weights
-    model.load_weights(weights_path)
+    def open_image(self, image_path):
+        pass
 
-    # Preprocess the image
-    image = img_to_array(image_array)
-    image = np.expand_dims(image, axis=0)
-    image = image / 255.0
 
-    # Make predictions
-    predictions = model.predict(image)
+    def crop_one_to_many(self, body_shape = (90,90), aim_width = 20, frame_width = 5 ):
+        pass
 
-    # Get the predicted class
-    predicted_class = np.argmax(predictions[0])
+    def generate(self):
+        # process:
+        # graph
+        # to grayscale
+        # crop/split
+        # edge detect
+        # add frame
+        # increase resolution
+        # prediction
+        pass
 
-    return predicted_class, predictions, dir_dict, dir_dict_reversed
+
+    def get_strings(self):
+        pass
+
+    def get_image(self):
+        pass
+
+
+        pass
