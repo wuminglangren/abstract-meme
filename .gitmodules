@@ -1,120 +1,160 @@
 [submodule "database/Chinese-meme/EmojiPackage"]
 	path = database/Chinese-meme/EmojiPackage
 	url = git@github.com:getActivity/EmojiPackage.git
+	ignore = dirty
 [submodule "database/Chinese-meme/img"]
 	path = database/Chinese-meme/img
 	url = git@github.com:Skyimg/img.git
+	ignore = dirty
 [submodule "database/Chinese-meme/ChineseBQB"]
 	path = database/Chinese-meme/ChineseBQB
 	url = git@github.com:zhaoolee/ChineseBQB.git
+	ignore = dirty
 [submodule "database/Chinese-meme/emoticon"]
 	path = database/Chinese-meme/emoticon
 	url = git@github.com:kallydev/emoticon.git
+	ignore = dirty
 [submodule "database/Chinese-meme/ikun"]
 	path = database/Chinese-meme/ikun
 	url = git@github.com:wzwtt/ikun.git
+	ignore = dirty
 [submodule "database/Chinese-meme/ShiroSeijo"]
 	path = database/Chinese-meme/ShiroSeijo
 	url = git@github.com:Lampese/ShiroSeijo.git
+	ignore = dirty
 [submodule "database/Chinese-meme/asoul-sticker"]
 	path = database/Chinese-meme/asoul-sticker
 	url = git@github.com:stormyyd/asoul-sticker.git
+	ignore = dirty
 [submodule "database/Chinese-meme/bilibili-emotes"]
 	path = database/Chinese-meme/bilibili-emotes
 	url = git@github.com:ccmuyuu/bilibili-emotes.git
+	ignore = dirty
 [submodule "database/Chinese-meme/emoji_automaton"]
 	path = database/Chinese-meme/emoji_automaton
 	url = git@github.com:lr580/emoji_automaton.git
+	ignore = dirty
 [submodule "database/Chinese-meme/CDN-EMOTE"]
 	path = database/Chinese-meme/CDN-EMOTE
 	url = git@github.com:url8/CDN-EMOTE.git
+	ignore = dirty
 [submodule "database/Abroad-meme/memes"]
 	path = database/Abroad-meme/memes
 	url = git@github.com:pinkode/memes.git
+	ignore = dirty
 [submodule "database/Abroad-meme/programming-memes"]
 	path = database/Abroad-meme/programming-memes
 	url = git@github.com:deep5050/programming-memes.git
+	ignore = dirty
 [submodule "database/Abroad-meme/awesome-tech-memes"]
 	path = database/Abroad-meme/awesome-tech-memes
 	url = git@github.com:GuidoPenta/awesome-tech-memes.git
+	ignore = dirty
 [submodule "database/Abroad-meme/Project-Padoru"]
 	path = database/Abroad-meme/Project-Padoru
 	url = git@github.com:shadow578/Project-Padoru.git
+	ignore = dirty
 [submodule "database/Abroad-meme/memepool"]
 	path = database/Abroad-meme/memepool
 	url = git@github.com:Psytreiser/memepool.git
+	ignore = dirty
 [submodule "database/Abroad-meme/adrena-emojis"]
 	path = database/Abroad-meme/adrena-emojis
 	url = git@github.com:AgtLucas/adrena-emojis.git
+	ignore = dirty
 [submodule "database/Abroad-meme/awesome-emoji"]
 	path = database/Abroad-meme/awesome-emoji
 	url = git@github.com:snipe/awesome-emoji.git
+	ignore = dirty
 [submodule "database/Abroad-meme/slackmoji"]
 	path = database/Abroad-meme/slackmoji
 	url = git@github.com:seanprashad/slackmoji.git
+	ignore = dirty
 [submodule "database/Abroad-meme/fluentui-emoji"]
 	path = database/Abroad-meme/fluentui-emoji
 	url = git@github.com:microsoft/fluentui-emoji.git
+	ignore = dirty
 [submodule "database/Abroad-meme/dev-hearts"]
 	path = database/Abroad-meme/dev-hearts
 	url = git@github.com:lukeocodes/dev-hearts.git
+	ignore = dirty
 [submodule "database/Abroad-meme/web-tech-and-dev-emoji"]
 	path = database/Abroad-meme/web-tech-and-dev-emoji
 	url = git@github.com:dannyfritz/web-tech-and-dev-emoji.git
+	ignore = dirty
 [submodule "database/Abroad-meme/Memes-Collection"]
 	path = database/Abroad-meme/Memes-Collection
 	url = git@github.com:Johnypier/Memes-Collection.git
+	ignore = dirty
 [submodule "database/Abroad-meme/rooCollection"]
 	path = database/Abroad-meme/rooCollection
 	url = git@github.com:LevitatingBusinessMan/rooCollection.git
+	ignore = dirty
 [submodule "database/Abroad-meme/emoji"]
 	path = database/Abroad-meme/emoji
 	url = git@github.com:erindatkinson/emoji.git
+	ignore = dirty
 [submodule "database/Abroad-meme/expression-pack"]
 	path = database/Abroad-meme/expression-pack
 	url = git@github.com:atanet90/expression-pack.git
+	ignore = dirty
 [submodule "database/fonts/powerline_fonts"]
 	path = database/fonts/powerline_fonts
 	url = git@github.com:powerline/fonts.git
+	ignore = dirty
 [submodule "database/fonts/google_fonts"]
 	path = database/fonts/google_fonts
 	url = git@github.com:google/fonts.git
+	ignore = dirty
 [submodule "database/fonts/nerd-fonts"]
 	path = database/fonts/nerd-fonts
 	url = git@github.com:ryanoasis/nerd-fonts.git
+	ignore = dirty
 [submodule "database/fonts/cores/BlinkMacSystemFont"]
 	path = database/fonts/cores/BlinkMacSystemFont
 	url = git@github.com:aliifam/BlinkMacSystemFont.git
+	ignore = dirty
 [submodule "database/fonts/cores/helvetica-neue"]
 	path = database/fonts/cores/helvetica-neue
 	url = git@github.com:ifvictr/helvetica-neue.git
+	ignore = dirty
 [submodule "database/fonts/cores/nurse-full-source"]
 	path = database/fonts/cores/nurse-full-source
 	url = git@github.com:PersuasiveGameCompetition/nurse-full-source.git
+	ignore = dirty
 [submodule "database/fonts/cores/Arial-Font"]
 	path = database/fonts/cores/Arial-Font
 	url = git@github.com:heriira/Arial-Font.git
+	ignore = dirty
 [submodule "database/fonts/cores/PingFang-Fonts"]
 	path = database/fonts/cores/PingFang-Fonts
 	url = git@github.com:paraself/PingFang-Fonts.git
+	ignore = dirty
 [submodule "database/fonts/cores/font-PingFang-SC"]
 	path = database/fonts/cores/font-PingFang-SC
 	url = git@github.com:TimeoutY/font-PingFang-SC.git
+	ignore = dirty
 [submodule "database/fonts/cores/Resources"]
 	path = database/fonts/cores/Resources
 	url = git@github.com:ole3021/Resources.git
+	ignore = dirty
 [submodule "database/fonts/cores/microsoft-yahei"]
 	path = database/fonts/cores/microsoft-yahei
 	url = git@github.com:fernvenue/microsoft-yahei.git
+	ignore = dirty
 [submodule "database/fonts/cores/fonts-wqy-microhei"]
 	path = database/fonts/cores/fonts-wqy-microhei
 	url = git@github.com:anthonyfok/fonts-wqy-microhei.git
+	ignore = dirty
 [submodule "database/fonts/cores/noto-cjk"]
 	path = database/fonts/cores/noto-cjk
 	url = git@github.com:notofonts/noto-cjk.git
+	ignore = dirty
 [submodule "database/fonts/cores/source-han-sans"]
 	path = database/fonts/cores/source-han-sans
 	url = git@github.com:adobe-fonts/source-han-sans.git
+	ignore = dirty
 [submodule "database/fonts/cores/source-sans"]
 	path = database/fonts/cores/source-sans
 	url = git@github.com:adobe-fonts/source-sans.git
+	ignore = dirty
