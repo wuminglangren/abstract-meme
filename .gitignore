@@ -172,3 +172,4 @@ database/fonts/treated_fonts/*
 *.txt
 database/fonts/treated_data-edge_detection/*
 *.h5
+nohup.out
