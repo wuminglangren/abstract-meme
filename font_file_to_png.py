@@ -13,7 +13,7 @@ import multiprocessing as mp
 import timeit
 
 # CHAR_RANGE = [*range(0x20, 0x4f7+1), *range(0x1d24,0x232c+1), *range(0x259f, 0x27e9+1), *range(0x2c60, 0x2e53+1), *range(0xa71c,0xa7f5+1), *range(0xab30, 0xab68+1), *range(0x110000, 0x110369+1)]
-CHAR_RANGE = [*range(0x20, 0x7e+1), *range(0x161,0xbf+1), *range(0x2e5,0x2e9+1)]
+CHAR_RANGE = [*range(0x20, 0x7e+1)] # 95
 TREATED_FONTS = "/home/wuming/Documents/abstract-meme/database/fonts/treated_fonts/"
 
 def has_glyph(font, char_code):
@@ -193,6 +193,7 @@ def print_all(font_file_path, font_size, image_width, image_height, font_color =
 #         char = None
 
 def print_all_seperately(root_path, font_file_path, largest_font_size, font_color = (0,0,0), background_color = (255,255,255), frame_shape = (20,20), frame_edge_size = 3, output_dir_path = "font_all_seperately"):
+# def print_all_seperately(root_path, font_file_path, start_font_size, font_size_limit, font_color = (0,0,0), background_color = (255,255,255), frame_shape = (20,20), frame_edge_size = 3, output_dir_path = "font_all_seperately"):
 
     data_collection = None
     
@@ -202,6 +203,7 @@ def print_all_seperately(root_path, font_file_path, largest_font_size, font_colo
     font_file_path = os.path.relpath(abs_file_path,current_file_path)
     try:
         font = ImageFont.truetype(font_file_path, largest_font_size)
+        # font = ImageFont.truetype(font_file_path, start_font_size)
     except OSError as e:
         print("An error occurred:", str(e))
         return font_file_path
@@ -246,6 +248,7 @@ def print_all_seperately(root_path, font_file_path, largest_font_size, font_colo
         # print("in loop:", frame_shape)
         # print(hex(char_code), int(char_code), char, end=" ")
         tmp_font_size = largest_font_size
+        # tmp_font_size = start_font_size
         tmp_font = font.font_variant(size = tmp_font_size)
 
         if has_glyph(loaded_font, char_code):
@@ -261,6 +264,7 @@ def print_all_seperately(root_path, font_file_path, largest_font_size, font_colo
                 print("root path:", root_path)
                 print("font_file_path:", font_file_path)
                 print("largest_font_size:", largest_font_size)
+                # print("start_font_size:", start_font_size)
                 print("font_color:", font_color)
                 print("background_color:", background_color)
                 print("frame_shape:", frame_shape)
@@ -273,9 +277,12 @@ def print_all_seperately(root_path, font_file_path, largest_font_size, font_colo
 
             counter = 0
             while touch_edge(part_image, detect_color=(0,0,0), edge_width=frame_edge_size):
+            # while ((not(touch_edge(part_image, detect_color=(0,0,0), edge_width=frame_edge_size))) and  
+                    #   (tmp_font_size <= font_size_limit)):
                 # print("looped loop part:", frame_shape)
                 try:
                     tmp_font_size -= 2
+                    # tmp_font_size += 2
                     tmp_font = tmp_font.font_variant(size = tmp_font_size)
 
                     part_image = Image.new("RGB", frame_shape, color=background_color)
@@ -285,9 +292,11 @@ def print_all_seperately(root_path, font_file_path, largest_font_size, font_colo
                 except OSError as e:
                     print(e)
                     print("looped time:", counter)
+                    print("char code:", char_code)
                     print("root path:", root_path)
                     print("font_file_path:", font_file_path)
                     print("largest_font_size:", largest_font_size)
+                    # print("start_font_size:", start_font_size)
                     print("current_font_size:", tmp_font_size)
                     print("font_color:", font_color)
                     print("background_color:", background_color)
@@ -295,7 +304,47 @@ def print_all_seperately(root_path, font_file_path, largest_font_size, font_colo
                     print("frame_edge_size:", frame_edge_size)
                     print("output_dir_path", output_dir_path)
 
-                counter += 1;
+                counter += 1
+
+                # if (tmp_font_size > font_size_limit):
+                #     print("looped time:", counter)
+                #     print("char code:", char_code)
+                #     print("root path:", root_path)
+                #     print("font_file_path:", font_file_path)
+                #     # print("largest_font_size:", largest_font_size)
+                #     print("start_font_size:", start_font_size)
+                #     print("current_font_size:", tmp_font_size)
+                #     print("font_color:", font_color)
+                #     print("background_color:", background_color)
+                #     print("frame_shape:", frame_shape)
+                #     print("frame_edge_size:", frame_edge_size)
+                #     print("output_dir_path", output_dir_path)
+
+            # if (touch_edge(part_image, detect_color=(0,0,0), edge_width=frame_edge_size)):
+
+            #     try:
+            #         # tmp_font_size -= 2
+            #         tmp_font_size -= 2
+            #         tmp_font = tmp_font.font_variant(size = tmp_font_size)
+
+            #         part_image = Image.new("RGB", frame_shape, color=background_color)
+            #         part_draw = ImageDraw.Draw(part_image)
+            #         part_draw_anchor = (math.floor(frame_shape[0] / 2),math.floor(frame_shape[0]/2))
+            #         part_draw.text(part_draw_anchor,text=chr(char_code), font=tmp_font, anchor="mm", fill=font_color)
+            #     except OSError as e:
+            #         print(e)
+            #         print("looped time:", counter)
+            #         print("char code:", char_code)
+            #         print("root path:", root_path)
+            #         print("font_file_path:", font_file_path)
+            #         # print("largest_font_size:", largest_font_size)
+            #         print("start_font_size:", start_font_size)
+            #         print("current_font_size:", tmp_font_size)
+            #         print("font_color:", font_color)
+            #         print("background_color:", background_color)
+            #         print("frame_shape:", frame_shape)
+            #         print("frame_edge_size:", frame_edge_size)
+            #         print("output_dir_path", output_dir_path)
 
 
             preserve_dir_path = output_dir_path + str(int(char_code)) + "_" + str(hex(char_code))
@@ -338,11 +387,12 @@ def clean_blanks_which_should_not_be_blank(dir_path):
                 # print("dir")
 
                 # scan_blank_under_a_dir(os.path.join(root,dir))
-                # for subroot, subdirs, subfiles in os.walk(os.path.join(root,dir)):
-                #     for subfile in subfiles:
-                #         path =os.path.join(subroot,subfile)
-                #         if is_png_blank(path):
-                #             os.remove(path)
+                for subroot, subdirs, subfiles in os.walk(os.path.join(root,dir)):
+                    for subfile in subfiles:
+                        path =os.path.join(subroot,subfile)
+                        wait_list.append(path)
+                        # if is_png_blank(path):
+                        #     os.remove(path)
     
     pool = mp.Pool()
     pool.map(scan_blank_under_a_dir,wait_list)
@@ -384,12 +434,14 @@ def is_png_blank(image_path, threshold =100):
     image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
     
     _, thresholded = cv2.threshold(image, threshold, 255, cv2.THRESH_BINARY)
+    non_zero_pixels = cv2.countNonZero(thresholded)
     total_pixels = image.shape[0] * image.shape[1]
 
-    if (total_pixels - cv2.countNonZero(thresholded)) <= 0:
-        return True
-    else:
-        return False
+    # if (total_pixels - cv2.countNonZero(thresholded)) <= 0:
+    #     return True
+    # else:
+    #     return False
+    return non_zero_pixels<=0
 
 
 def scan_blank_under_a_dir(dir_path):
@@ -449,6 +501,7 @@ def touch_edge(image, detect_color = (0,0,0), edge_width:int = 1 ):
 
 def process_file_with_presets(file_path):
     result = print_all_seperately(root_path = FONTS_DATA, font_file_path=file_path, largest_font_size=176, font_color=(0,0,0), background_color=(255,255,255), frame_shape=(100,100), frame_edge_size= 5, output_dir_path=TREATED_FONTS)
+    # result = print_all_seperately(root_path = FONTS_DATA, font_file_path=file_path, start_font_size=60, font_size_limit=176, font_color=(0,0,0), background_color=(255,255,255), frame_shape=(100,100), frame_edge_size= 5, output_dir_path=TREATED_FONTS)
     if result != None:
         print("error path: ",result)
 
@@ -458,28 +511,28 @@ if __name__ =="__main__":
     # print_all("test_font.ttf", 72, 5000, 5000, (0,0,0), (255,255,255), "test_test_test.png")
 
 
-    # file_paths = []
-    # for root, dirs, files in os.walk(FONTS_DATA):
-    #     for file in files:
-    #         # file_path = os.path.join(root, file)
-    #         # file_paths.append(file_path)
-    #         # print(file_path)
-    #         # file_path = os.path.join(root, file)
-    #         file_paths.append(file)
-    #         # print(file)
+    file_paths = []
+    for root, dirs, files in os.walk(FONTS_DATA):
+        for file in files:
+            # file_path = os.path.join(root, file)
+            # file_paths.append(file_path)
+            # print(file_path)
+            # file_path = os.path.join(root, file)
+            file_paths.append(file)
+            # print(file)
 
-    #         # print_all_seperately(file_path, 144, (0,0,0), (255,255,255), frame_shape=(50,50), frame_edge_size= 5, output_dir_path="/home/wuming/Documents/abstract-meme/database/fonts/treated_fonts/")
+            # print_all_seperately(file_path, 144, (0,0,0), (255,255,255), frame_shape=(50,50), frame_edge_size= 5, output_dir_path="/home/wuming/Documents/abstract-meme/database/fonts/treated_fonts/")
 
-    # start = timeit.timeit()
-    # # print(file_paths)
-    # pool = mp.Pool()
-    # pool.map(process_file_with_presets, file_paths)
+    start = timeit.timeit()
+    # print(file_paths)
+    pool = mp.Pool()
+    pool.map(process_file_with_presets, file_paths)
 
-    # pool.close()
-    # pool.join()
-    # # print_all_seperately("test_font.ttf", 72, (0,0,0), (255,255,255), "/home/wuming/Documents/abstract-meme/font_all_seperately/")
-    # print("start to clean blank!")
-    # print(f"Used {(timeit.timeit() - start)}")
+    pool.close()
+    pool.join()
+    # print_all_seperately("test_font.ttf", 72, (0,0,0), (255,255,255), "/home/wuming/Documents/abstract-meme/font_all_seperately/")
+    print("start to clean blank!")
+    print(f"Used {(timeit.timeit() - start)}")
 
     start = timeit.timeit()
     clean_blanks_which_should_not_be_blank(TREATED_FONTS)

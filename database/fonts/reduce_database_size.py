@@ -81,23 +81,38 @@ def delete_font_depening_on_types():
                 os.remove(os.path.join(FONTS_DATA,name))
 
 
+# def delete_specific_fonts():
+#     font_names= [name for name in os.listdir(FONTS_DATA) if os.path.isfile(os.path.join(FONTS_DATA, name))]
+
+#     target_fonts = ['ubuntu-c_modified', 'adobeblank', 'akronim', 'aksarabaligalang', 'asar-regular', 'cabinsketch', 'codystar', 'fascinateinline', 'fascinate', 'flowblock', 'flowcircular', 'flowrounded','geo-oblique','geo-regular','geostarfill','geostar','hanalei','heavydatanerdfont','jsmath','librebarcode','monofett','missfajardose','monoton','monsterratsubrayada','moolahlah','mysoul','newrocker','portersansblock','redacted','raviprakash','rationale','revalia','rubik80sfade','rubik','zentokyozoo','zillaslabhighlight','londrina','yeonsung','alkalami','anybody','[','bungeeshade','carattere','josefin','subdrayada','mrbedfort','mrssaintdelafield','nosifercaps','nosifer','notoseriftibet','nuosusil', 'silkscreen', '3270','fuzzybulbbles','gwendolyn','hurricane','lavishlyyours','monoid-', 'themify', "notocoloremoji", "emoji", "KumarOne", "alexbrush", 'alison', 'allura', 'almendradisplay', 'astloch']
+
+#     deleted = False
+#     for font_name in font_names:
+#         for target_name in target_fonts:
+#             if target_name in font_name.lower():
+#                 if not(deleted):
+#                     try:
+#                         os.remove(os.path.join(FONTS_DATA,font_name))
+#                         font_names.remove(font_name)
+#                         deleted = True
+                        
+#                     except FileNotFoundError as e:
+#                         print (e, font_name)
+
 def delete_specific_fonts():
-    font_names= [name for name in os.listdir(FONTS_DATA) if os.path.isfile(os.path.join(FONTS_DATA, name))]
 
     target_fonts = ['ubuntu-c_modified', 'adobeblank', 'akronim', 'aksarabaligalang', 'asar-regular', 'cabinsketch', 'codystar', 'fascinateinline', 'fascinate', 'flowblock', 'flowcircular', 'flowrounded','geo-oblique','geo-regular','geostarfill','geostar','hanalei','heavydatanerdfont','jsmath','librebarcode','monofett','missfajardose','monoton','monsterratsubrayada','moolahlah','mysoul','newrocker','portersansblock','redacted','raviprakash','rationale','revalia','rubik80sfade','rubik','zentokyozoo','zillaslabhighlight','londrina','yeonsung','alkalami','anybody','[','bungeeshade','carattere','josefin','subdrayada','mrbedfort','mrssaintdelafield','nosifercaps','nosifer','notoseriftibet','nuosusil', 'silkscreen', '3270','fuzzybulbbles','gwendolyn','hurricane','lavishlyyours','monoid-', 'themify', "notocoloremoji", "emoji", "KumarOne", "alexbrush", 'alison', 'allura', 'almendradisplay', 'astloch']
 
-    deleted = False
-    for font_name in font_names:
+    for font_name in os.listdir(FONTS_DATA):
         for target_name in target_fonts:
-            if target_name in font_name.lower():
-                if not(deleted):
-                    try:
-                        os.remove(os.path.join(FONTS_DATA,font_name))
-                        font_names.remove(font_name)
-                        deleted = True
-                        
-                    except FileNotFoundError as e:
-                        print (e, font_name)
+            if target_name.lower() in font_name.lower():
+                try:
+                    font_path = os.path.join(FONTS_DATA, font_name)
+                    os.remove(font_path)
+                    print(f"Deleted: {font_name}")
+                    
+                except FileNotFoundError as e:
+                    print (f"Error deleting {font_name}: {e}")
 
 
 if __name__ == "__main__":
